@@ -78,7 +78,8 @@ soup = BeautifulSoup(html, 'html.parser')
 
 ## PROCESSO DE EXTRAÇÃO
 1. Após rodar os codigos acima temos que validar os dados que queremos extrair do site que vamos analisar
-![image](https://github.com/user-attachments/assets/fa7200e2-6f97-494b-bf0e-9d06cb0026a1)
+![image](https://github.com/user-attachments/assets/319cf196-a400-4bce-8475-1ca9759c7087)
+
 
 ## Onde estão os dados?
 
