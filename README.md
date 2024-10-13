@@ -201,15 +201,12 @@ from tabulate import tabulate
 
 sections = soup.find_all('section', class_="tabela tabela__pontos-corridos")
 
-# Para armazenar as tabelas combinadas
 tabela_completa = []
 
-# Adicionar o cabeçalho à tabela
 cabecalho = ['Posição', 'Time', 'P', 'J', 'V', 'E', 'D', 'GP', 'GC', 'SG', '%', 'ÚLT. JOGOS']
 tabela_completa.append(cabecalho)
 
 for section in sections:
-    # 1. Encontrar a tabela de equipes (nomes, posições, etc.)
     tabela_equipes = section.find_all('table', class_="tabela__equipes tabela__equipes--com-borda")
     
     # 2. Encontrar a tabela de pontos (estatísticas: jogos, vitórias, derrotas, etc.)
@@ -232,11 +229,9 @@ for section in sections:
                     nome_time = cols_text_equipe[1].replace('BOT', '').replace('PAL', '').replace('FOR', '').replace('FLA', '').replace('SAO', '').replace('INT', '').replace('BAH', '').replace('CRU', '').replace('CAM', '').replace('VAS', '').replace('GRE', '').replace('CRI', '').replace('RBB', '').replace('JUV', '').replace('CAP', '').replace('FLU', '').replace('VIT', '').replace('COR', '').replace('CUI', '').replace('ACG', '').strip()
                     cols_text_equipe[1] = nome_time
 
-                # Extrair as informações dos pontos (estatísticas)
                 cols_ponto = row_ponto.find_all(['td', 'th'])
                 cols_text_ponto = [col.get_text(strip=True) for col in cols_ponto]
 
-                # 4. Procurar a coluna de "últimos jogos"
                 ultimos_jogos_col = row_ponto.find_all('td', class_="classificacao__pontos classificacao__pontos--ultimos_jogos")
                 ultimos_jogos_resultados = []
                 
@@ -253,24 +248,20 @@ for section in sections:
                         elif "classificacao__ultimos_jogos--d" in span_class:
                             ultimos_jogos_resultados.append('D')  # Derrota
 
-                # 5. Combinar todas as informações na mesma linha (equipe + pontos)
                 linha_completa = cols_text_equipe + cols_text_ponto
                 
-                # Verifica se a última coluna é vazia e a remove, caso seja
                 if linha_completa[-1] == '':
-                    linha_completa.pop()  # Remove o último elemento se for vazio
+                    linha_completa.pop()  
 
                 # Insira os resultados dos últimos jogos na posição correta
-                if ultimos_jogos_resultados:  # Apenas adiciona se houver resultados
-                    linha_completa.append(' '.join(ultimos_jogos_resultados))  # Adiciona como string
+                if ultimos_jogos_resultados:  
+                    linha_completa.append(' '.join(ultimos_jogos_resultados))  
                 else:
-                    linha_completa.append('')  # Adiciona string vazia se não houver resultados
+                    linha_completa.append('')  
 
-                # Verifica se a linha começa com "Classificação" e ignora
-                if linha_completa[0] != "Classificação":  # Ignora a linha de título
+                if linha_completa[0] != "Classificação":  
                     tabela_completa.append(linha_completa)
 
-# Imprimir a tabela
 print(tabulate(tabela_completa, headers='firstrow', tablefmt='grid'))
 ```
 
